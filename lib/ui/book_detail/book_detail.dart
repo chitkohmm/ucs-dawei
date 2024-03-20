@@ -54,14 +54,14 @@ class _BookDetailState extends State<BookDetail> {
 
   Future<File> _downloadFile(String fileName) async {
     ///This is the pdf download url for [UDNR SGG]
-    final pdfUrl = '${widget.book.bookfile?[0].originalUrl}';
-    debugPrint('PDF URL ----- ${widget.book.bookfile?[0].originalUrl}');
+    // final pdfUrl = '${widget.book.bookfile?[0].originalUrl}';
+    // debugPrint('PDF URL ----- ${widget.book.bookfile?[0].originalUrl}');
 
     ///This is the pdf download url for [UCS Dawei]
 
-    // final baseUrl = StorageUtils.getString("url");
-    // final pdfUrl = '$baseUrl${widget.book.bookfileUrl}';
-    // debugPrint('PDF URL ----- $baseUrl${widget.book.bookfileUrl}');
+    final baseUrl = StorageUtils.getString("url");
+    final pdfUrl = '$baseUrl${widget.book.bookfileUrl}';
+    debugPrint('PDF URL ----- $baseUrl${widget.book.bookfileUrl}');
 
     var response = await http.get(Uri.parse(pdfUrl));
 
@@ -92,7 +92,7 @@ class _BookDetailState extends State<BookDetail> {
   bool isDownloading = false;
   @override
   Widget build(BuildContext context) {
-    debugPrint('Book cover :: ${widget.book.bookCover} ');
+    debugPrint('Book  ${widget.book.bookfile![0]} bookfile url : ${widget.book.bookfileUrl}');
 
     return PopScope(
       canPop: isDownloading ? false : true,

@@ -23,6 +23,15 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     timer = Timer(const Duration(seconds: 3), () {
+      // if (StorageUtils.getString("login_user") != "") {
+      //   kGoToNextAndRemove(
+      //       context,
+      //       const BottomNavBar(
+      //         index: 0,
+      //       ));
+      // } else {
+      //   kGoToNextAndRemove(context, Login());
+      // }
       if (StorageUtils.getString("url") != "") {
         if (StorageUtils.getString("login_user") != "") {
           kGoToNextAndRemove(

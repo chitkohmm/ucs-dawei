@@ -55,7 +55,7 @@ class _APILinkState extends State<APILink> {
                     height: context.hp(5),
                   ),
                   const Text(
-                    "University of Computer Studies (Saggaing)",
+                    "University of Computer Studies (Dawei)",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,

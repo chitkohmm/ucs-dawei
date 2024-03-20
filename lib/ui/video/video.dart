@@ -43,10 +43,7 @@ class _VideoState extends State<Video> {
         builder: (context, state) {
           if (state is VideosLoadingState) {
             return const Center(
-              child: SpinKitThreeBounce(
-                color: Color(0xFF5AE4A8),
-                size: 22,
-              ),
+              child: SpinKitThreeBounce(color: Color(0xFF5AE4A8), size: 22),
             );
           }
           if (state is VideosLoadedState) {
@@ -66,9 +63,7 @@ class _VideoState extends State<Video> {
                       physics: const BouncingScrollPhysics(),
                       itemCount: state.videoResponse.data!.length,
                       separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 12,
-                        );
+                        return const SizedBox(height: 12);
                       },
                       itemBuilder: (context, index) {
                         return state
@@ -85,9 +80,7 @@ class _VideoState extends State<Video> {
                                         fontWeight: FontWeight.w700,
                                         fontSize: 18),
                                   ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
+                                  const SizedBox(height: 12),
                                   SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
@@ -154,32 +147,22 @@ class _VideoState extends State<Video> {
 
                                                               return Positioned
                                                                   .fill(
-                                                                child: thumbnailUrl !=
-                                                                        null
-                                                                    ? Image
-                                                                        .file(
-                                                                        File(
-                                                                            thumbnailUrl),
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      )
-                                                                    : Image
-                                                                        .asset(
-                                                                        'assets/images/video cover.png',
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                              );
+                                                                      child: thumbnailUrl !=
+                                                                              null
+                                                                          ? Image
+                                                                              .file(
+                                                                              File(thumbnailUrl),
+                                                                              fit: BoxFit.cover,
+                                                                            )
+                                                                          : Image.asset(
+                                                                              'assets/images/ucs_dawei.png',
+                                                                              fit: BoxFit.contain));
                                                             } else {
-                                                              return Positioned
-                                                                  .fill(
-                                                                child:
-                                                                    Image.asset(
-                                                                  'assets/images/video cover.png',
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
-                                                              );
+                                                              return Positioned.fill(
+                                                                  child: Image.asset(
+                                                                      'assets/images/ucs_dawei.png',
+                                                                      fit: BoxFit
+                                                                          .contain));
                                                             }
                                                           },
                                                         ),
@@ -197,9 +180,7 @@ class _VideoState extends State<Video> {
                                                     ),
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
+                                                const SizedBox(height: 5),
                                                 Text(
                                                   '${videoItem?.name}',
                                                   style: const TextStyle(

@@ -125,7 +125,6 @@ class Book {
         json['location'] != null ? Location.fromJson(json['location']) : null;
     pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
     shelf = json['shelf'] != null ? Shelf.fromJson(json['shelf']) : null;
-
   }
 
   num? id;
@@ -440,6 +439,9 @@ class Bookfile {
 
   num? id;
   String? originalUrl;
+
+  @override
+  String toString() => 'Boofile id $id, original url : $originalUrl';
 
   // String? bookfileUrl;  // <<- new
 

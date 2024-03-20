@@ -202,10 +202,10 @@ class _HomeState extends State<Home> {
                                                       ?
 
                                                       ///use this for [UCS Dawei]
-                                                      // "$baseUrl${state.bookCategories.data![index].image!.originalUrl}"
+                                                      "$baseUrl${state.bookCategories.data![index].image!.originalUrl}"
 
                                                       ///use this for [UDNR SGG]
-                                                      "${state.bookCategories.data![index].image!.originalUrl}"
+                                                      // "${state.bookCategories.data![index].image!.originalUrl}"
                                                       : "",
                                                   fit: BoxFit.fitHeight,
                                                   errorWidget:

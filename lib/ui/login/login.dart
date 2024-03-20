@@ -51,7 +51,7 @@ class Login extends StatelessWidget {
                       height: context.wp(5),
                     ),
                     const Text(
-                      "University of Computer Studies (Saggaing)",
+                      "University of Computer Studies (Dawei)",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
@@ -207,18 +207,18 @@ class Login extends StatelessWidget {
                         );
                       },
                     ),
-                    TextButton(
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        kGoToNext(context, const APILink());
-                      },
-                      child: const Text(
-                        "Change URL 🖊",
-                        style: TextStyle(
-                            color: Color(0xFF5AE4A8),
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
+                    // TextButton(
+                    //   onPressed: () {
+                    //     FocusScope.of(context).unfocus();
+                    //     kGoToNext(context, const APILink());
+                    //   },
+                    //   child: const Text(
+                    //     "Change URL 🖊",
+                    //     style: TextStyle(
+                    //         color: Color(0xFF5AE4A8),
+                    //         fontWeight: FontWeight.bold),
+                    //   ),
+                    // )
                   ],
                 ),
               ),
