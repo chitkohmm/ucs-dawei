@@ -2,7 +2,8 @@
 
 class BookCategories {
   BookCategories({
-      this.data,});
+    this.data,
+  });
 
   BookCategories.fromJson(dynamic json) {
     if (json['data'] != null) {
@@ -13,9 +14,12 @@ class BookCategories {
     }
   }
   List<Data>? data;
-BookCategories copyWith({  List<Data>? data,
-}) => BookCategories(  data: data ?? this.data,
-);
+  BookCategories copyWith({
+    List<Data>? data,
+  }) =>
+      BookCategories(
+        data: data ?? this.data,
+      );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (data != null) {
@@ -23,7 +27,6 @@ BookCategories copyWith({  List<Data>? data,
     }
     return map;
   }
-
 }
 
 /// id : 4
@@ -32,9 +35,10 @@ BookCategories copyWith({  List<Data>? data,
 
 class Data {
   Data({
-      this.id, 
-      this.category, 
-      this.image,});
+    this.id,
+    this.category,
+    this.image,
+  });
 
   Data.fromJson(dynamic json) {
     id = json['id'];
@@ -44,13 +48,16 @@ class Data {
   num? id;
   String? category;
   Image? image;
-Data copyWith({  num? id,
-  String? category,
-  Image? image,
-}) => Data(  id: id ?? this.id,
-  category: category ?? this.category,
-  image: image ?? this.image,
-);
+  Data copyWith({
+    num? id,
+    String? category,
+    Image? image,
+  }) =>
+      Data(
+        id: id ?? this.id,
+        category: category ?? this.category,
+        image: image ?? this.image,
+      );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
@@ -60,26 +67,36 @@ Data copyWith({  num? id,
     }
     return map;
   }
-
 }
 
 /// original_url : "https://lib-ms.hmmdemo.net/storage/9/63e49e63e30f0_php.png"
 
 class Image {
   Image({
-      this.originalUrl,});
+    this.originalUrl,
+  });
 
   Image.fromJson(dynamic json) {
     originalUrl = json['url'];
   }
+
   String? originalUrl;
-Image copyWith({  String? originalUrl,
-}) => Image(  originalUrl: originalUrl ?? this.originalUrl,
-);
+
+  Image copyWith({
+    String? originalUrl,
+  }) =>
+      Image(
+        originalUrl: originalUrl ?? this.originalUrl,
+      );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['url'] = originalUrl;
     return map;
   }
 
+  @override
+  String toString() {
+    return 'Image originalUrl $originalUrl';
+  }
 }

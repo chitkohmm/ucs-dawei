@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:libms_flutter/data/network/api_service.dart';
 
 import '../../data/blocs/home_bloc/home_bloc.dart';
 import '../../domain/constants.dart';
@@ -51,7 +52,6 @@ class _HomeState extends State<Home> {
               }
 
               if (state is HomeLoadedState) {
-                debugPrint("${state.books.data![0].bookCover}hello");
                 return Column(
                   children: [
                     Container(
@@ -150,94 +150,96 @@ class _HomeState extends State<Home> {
                                 child: Row(
                                   children: List.generate(
                                     state.bookCategories.data!.length,
-                                    (index) => Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 12.0),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BooksByCategory(
-                                                categoryName: state
-                                                    .bookCategories
-                                                    .data![index]
-                                                    .category
-                                                    .toString(),
-                                                id: state.bookCategories
-                                                    .data![index].id!
-                                                    .toInt(),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height:
-                                                  kDeviceHeight(context) / 5,
-                                              width:
-                                                  kDeviceWidth(context) / 3.5,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    spreadRadius: 1,
-                                                    color: Colors.black12,
-                                                  )
-                                                ],
-                                              ),
-                                              child: Center(
-                                                child: CachedNetworkImage(
-                                                  imageUrl: state
-                                                              .bookCategories
-                                                              .data![index]
-                                                              .image !=
-                                                          null
-                                                      ?
-
-                                                      ///use this for [UCS Dawei]
-                                                      "$baseUrl${state.bookCategories.data![index].image!.originalUrl}"
-
-                                                      ///use this for [UDNR SGG]
-                                                      // "${state.bookCategories.data![index].image!.originalUrl}"
-                                                      : "",
-                                                  fit: BoxFit.fitHeight,
-                                                  errorWidget:
-                                                      (context, _, dynamic) {
-                                                    return Container(
-                                                      color:
-                                                          Colors.grey.shade400,
-                                                    );
-                                                  },
+                                    (index) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 12.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BooksByCategory(
+                                                  categoryName: state
+                                                      .bookCategories
+                                                      .data![index]
+                                                      .category
+                                                      .toString(),
+                                                  id: state.bookCategories
+                                                      .data![index].id!
+                                                      .toInt(),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.01,
-                                            ),
-                                            Text(
-                                              state.bookCategories.data![index]
-                                                  .category
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                color: Colors.black,
+                                            );
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height:
+                                                    kDeviceHeight(context) / 5,
+                                                width:
+                                                    kDeviceWidth(context) / 3.5,
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      blurRadius: 4,
+                                                      spreadRadius: 1,
+                                                      color: Colors.black12,
+                                                    )
+                                                  ],
+                                                ),
+                                                child: Center(
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: state
+                                                                .bookCategories
+                                                                .data![index]
+                                                                .image !=
+                                                            null
+                                                        ?
+
+                                                        ///use this for [UCS Dawei]
+                                                        // "$daweiUrl${state.bookCategories.data![index].image!.originalUrl}"
+
+                                                        ///use this for [UDNR SGG]
+                                                        "${state.bookCategories.data![index].image!.originalUrl}"
+                                                        : "",
+                                                    fit: BoxFit.fitHeight,
+                                                    errorWidget:
+                                                        (context, _, dynamic) {
+                                                      return Container(
+                                                        color: Colors
+                                                            .grey.shade400,
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
                                               ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          ],
+                                              SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.01,
+                                              ),
+                                              Text(
+                                                state.bookCategories
+                                                    .data![index].category
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),

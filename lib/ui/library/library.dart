@@ -25,7 +25,7 @@ class _LibraryState extends State<Library> {
   int lastPage = 0;
   List<Book> currentBook = [];
   bool loadMore = false;
-  
+
   @override
   void initState() {
     BlocProvider.of<HomeBloc>(context)

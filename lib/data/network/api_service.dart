@@ -5,7 +5,6 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/http.dart';
 
 import '../../domain/constants.dart';
-import '../../domain/storage_utils.dart';
 import '../models/book/add_book_to_download_list.dart';
 import '../models/book/book_request_body.dart';
 import '../models/book/books.dart';
@@ -27,14 +26,16 @@ import '../models/video/video_response.dart';
 
 part 'api_service.g.dart';
 
+const String daweiUrl = 'http://dlms.ucsdawei.edu.mm';
+
 @RestApi(baseUrl: null)
 abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
   static ApiService create() {
     final dio = Dio();
-    dio.options = BaseOptions(baseUrl: StorageUtils.getString("url"));
-    // dio.options = BaseOptions(baseUrl: 'http://dlms.ucsdawei.edu.mm');
+    // dio.options = BaseOptions(baseUrl: StorageUtils.getString("url"));
+    dio.options = BaseOptions(baseUrl: daweiUrl);
     if (kDebugMode) {
       dio.interceptors.add(
         PrettyDioLogger(

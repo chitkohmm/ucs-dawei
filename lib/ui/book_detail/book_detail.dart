@@ -9,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:libms_flutter/data/network/api_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -54,14 +55,14 @@ class _BookDetailState extends State<BookDetail> {
 
   Future<File> _downloadFile(String fileName) async {
     ///This is the pdf download url for [UDNR SGG]
-    // final pdfUrl = '${widget.book.bookfile?[0].originalUrl}';
+    final pdfUrl = '${widget.book.bookfile?[0].originalUrl}';
     // debugPrint('PDF URL ----- ${widget.book.bookfile?[0].originalUrl}');
 
     ///This is the pdf download url for [UCS Dawei]
 
-    final baseUrl = StorageUtils.getString("url");
-    final pdfUrl = '$baseUrl${widget.book.bookfileUrl}';
-    debugPrint('PDF URL ----- $baseUrl${widget.book.bookfileUrl}');
+    // final baseUrl = StorageUtils.getString("url");
+    // final pdfUrl = '$baseUrl${widget.book.bookfileUrl}';
+    // debugPrint('PDF URL ----- $baseUrl${widget.book.bookfileUrl}');
 
     var response = await http.get(Uri.parse(pdfUrl));
 
@@ -92,7 +93,7 @@ class _BookDetailState extends State<BookDetail> {
   bool isDownloading = false;
   @override
   Widget build(BuildContext context) {
-    debugPrint('Book  ${widget.book.bookfile![0]} bookfile url : ${widget.book.bookfileUrl}');
+    // debugPrint('Book  ${widget.book.bookfile![0]} bookfile url : ${widget.book.bookfileUrl}');
 
     return PopScope(
       canPop: isDownloading ? false : true,
@@ -565,8 +566,9 @@ class _ValidateStudentState extends State<ValidateStudent> {
         error: true,
         compact: true,
         maxWidth: 90));
-    final response = await dio.post(
-        "${StorageUtils.getString("url")}/api/v1/issuedcount",
+
+    ///[UCS Dawei]
+    final response = await dio.post("$daweiUrl/api/v1/issuedcount",
         options: Options(headers: {
           "Authorization": 'Bearer ${StorageUtils.getString("login_user")}'
         }),

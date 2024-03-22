@@ -23,28 +23,28 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     timer = Timer(const Duration(seconds: 3), () {
-      // if (StorageUtils.getString("login_user") != "") {
-      //   kGoToNextAndRemove(
-      //       context,
-      //       const BottomNavBar(
-      //         index: 0,
-      //       ));
-      // } else {
-      //   kGoToNextAndRemove(context, Login());
-      // }
-      if (StorageUtils.getString("url") != "") {
-        if (StorageUtils.getString("login_user") != "") {
-          kGoToNextAndRemove(
-              context,
-              const BottomNavBar(
-                index: 0,
-              ));
-        } else {
-          kGoToNextAndRemove(context, Login());
-        }
+      if (StorageUtils.getString("login_user") != "") {
+        kGoToNextAndRemove(
+            context,
+            const BottomNavBar(
+              index: 0,
+            ));
       } else {
-        kGoToNextAndRemove(context, const APILink());
+        kGoToNextAndRemove(context, Login());
       }
+      // if (StorageUtils.getString("url") != "") {
+      //   if (StorageUtils.getString("login_user") != "") {
+      //     kGoToNextAndRemove(
+      //         context,
+      //         const BottomNavBar(
+      //           index: 0,
+      //         ));
+      //   } else {
+      //     kGoToNextAndRemove(context, Login());
+      //   }
+      // } else {
+      //   kGoToNextAndRemove(context, const APILink());
+      // }
     });
     super.initState();
   }
@@ -109,7 +109,8 @@ class _SplashState extends State<Splash> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Text(
-                        "UNDR-SGG",
+                        // "UNDR-SGG",
+                        'UCS-Dawei',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
