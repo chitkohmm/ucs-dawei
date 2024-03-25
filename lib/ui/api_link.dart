@@ -47,7 +47,6 @@ class _APILinkState extends State<APILink> {
                     height: context.hp(10),
                   ),
                   Image.asset(
-                    // "assets/images/udnr_logo.png",
                     "assets/images/ucs_dawei.png",
                     height: context.hp(100) / 6,
                   ),

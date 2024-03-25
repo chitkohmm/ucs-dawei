@@ -62,7 +62,6 @@ class _AppState extends State<App> {
       DeviceOrientation.portraitUp,
     ]);
     timer = Timer(const Duration(seconds: 2), () {
-      // precacheImage(const AssetImage("assets/images/udnr_logo.png"), context);
       precacheImage(const AssetImage("assets/images/ucs_dawei.png"), context);
       precacheImage(const AssetImage("assets/images/shape.png"), context);
       precacheImage(const AssetImage("assets/images/video cover.png"), context);
@@ -145,7 +144,7 @@ class _AppState extends State<App> {
                   ],
                   locale: lang,
                   debugShowCheckedModeBanner: false,
-                  title: 'UDNR-SGG Lib-Ms',
+                  title: 'UCS Dawei',
                   supportedLocales: const [
                     Locale('en'), // English
                     Locale('mm'), // Spanish

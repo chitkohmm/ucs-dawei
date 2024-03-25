@@ -115,10 +115,10 @@ class Profile extends StatelessWidget {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.018,
                           ),
-                          _buttonCard("Pending Books", () {
-                            /// download page
-                            kGoToNext(context, const PendingList());
-                          }),
+                          // _buttonCard("Pending Books", () {
+                          //   /// download page
+                          //   kGoToNext(context, const PendingList());
+                          // }),
                         ],
                       ),
                     ),

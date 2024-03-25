@@ -54,15 +54,7 @@ class _BookDetailState extends State<BookDetail> {
   }
 
   Future<File> _downloadFile(String fileName) async {
-    ///This is the pdf download url for [UDNR SGG]
     final pdfUrl = '${widget.book.bookfile?[0].originalUrl}';
-    // debugPrint('PDF URL ----- ${widget.book.bookfile?[0].originalUrl}');
-
-    ///This is the pdf download url for [UCS Dawei]
-
-    // final baseUrl = StorageUtils.getString("url");
-    // final pdfUrl = '$baseUrl${widget.book.bookfileUrl}';
-    // debugPrint('PDF URL ----- $baseUrl${widget.book.bookfileUrl}');
 
     var response = await http.get(Uri.parse(pdfUrl));
 

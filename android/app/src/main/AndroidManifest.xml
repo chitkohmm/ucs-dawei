@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="com.libms.udnrsgg">
+    package="com.libms.ucsdawei">
     <uses-permission android:name="android.permission.INTERNET"/> <!-- Add this -->
 <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -8,8 +8,6 @@
 <!-- For apps with targetSDK=31 (Android 12) -->
 <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
-    <!-- UDNR : UDNR-SGG Lib-ms -->
-    <!-- UCS Dawei : UCS-Dawei Lib-ms -->
    <application
         android:label="UCS-Dawei Lib-ms"
         android:name="${applicationName}"
