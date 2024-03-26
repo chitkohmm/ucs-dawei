@@ -66,7 +66,7 @@ class _BookDetailState extends State<BookDetail> {
         if (isDownloading) {
           ScaffoldMessenger.of(context).clearSnackBars();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Please wait until download finished')));
+              content: Text('Please wait until download is finished')));
         }
       },
       child: Scaffold(
@@ -94,8 +94,7 @@ class _BookDetailState extends State<BookDetail> {
                   physics: const BouncingScrollPhysics(),
                   child: Column(
                     children: [
-                      _buildUpperSection(
-                          widget.book.bookCover.toString(), context),
+                      _buildUpperSection('${widget.book.bookCover}', context),
                       widget.book.description == null
                           ? const SizedBox()
                           : _buildMiddleSection(context),
@@ -255,7 +254,7 @@ class _BookDetailState extends State<BookDetail> {
                                         ),
                                         status: "3",
                                         books: BookObject(
-                                          bookId: widget.book.id.toString(),
+                                          bookId: '${widget.book.id}',
                                         ),
                                       ),
                                     ),

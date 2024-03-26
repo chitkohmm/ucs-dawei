@@ -27,7 +27,7 @@ class ExpiredBooksBloc extends Bloc<ExpiredBooksEvent, ExpiredBooksState> {
               userId: int.parse(StorageUtils.getString("user_id"))));
       emit(ExpiredBooksLoadedState(downloadBooks: response));
     } on DioError catch (e) {
-      debugPrint(e.toString());
+      debugPrint('$e');
       emit(DownloadBooksErrorState());
     }
   }

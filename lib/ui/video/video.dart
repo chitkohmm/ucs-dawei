@@ -72,9 +72,7 @@ class _VideoState extends State<Video> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    state
-                                        .videoResponse.data![index].categoryName
-                                        .toString(),
+                                    '${state.videoResponse.data![index].categoryName}',
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w700,

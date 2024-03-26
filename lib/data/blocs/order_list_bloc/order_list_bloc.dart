@@ -26,7 +26,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
               userId: int.parse(StorageUtils.getString("user_id"))));
       emit(OrderListLoadedState(orderListResponse: response));
     } on DioError catch (e) {
-      debugPrint(e.toString());
+      debugPrint('$e');
       emit(OrderListErrorState());
     }
   }

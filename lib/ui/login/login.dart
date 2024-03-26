@@ -102,22 +102,21 @@ class Login extends StatelessWidget {
                     ),
                     BlocConsumer<LoginBloc, LoginState>(
                       listener: (context, state) {
-
                         if (state is LoginLoadedState) {
                           if (state.loginResponse.userInfo!.roles![0].title ==
                               "Student") {
-                        debugPrint('LOGIN INFO ::: ${state.loginResponse.userInfo}');
+                            debugPrint(
+                                'LOGIN INFO ::: ${state.loginResponse.userInfo}');
 
-                        debugPrint('LOGIN SCI ::: ${state.loginResponse.userInfo!.studentCategoryId}');
+                            debugPrint(
+                                'LOGIN SCI ::: ${state.loginResponse.userInfo!.studentCategoryId}');
 
-                            StorageUtils.setString("login_user",
-                                state.loginResponse.token.toString());
-                            StorageUtils.setString("user_id",
-                                state.loginResponse.userInfo!.id.toString());
                             StorageUtils.setString(
-                                "sci",
-                                state.loginResponse.userInfo!.studentCategoryId
-                                    .toString());
+                                "login_user", '${state.loginResponse.token}');
+                            StorageUtils.setString("user_id",
+                                '${state.loginResponse.userInfo!.id}');
+                            StorageUtils.setString("sci",
+                                '${state.loginResponse.userInfo!.studentCategoryId}');
                             StorageUtils.setString(
                               "user_info",
                               jsonEncode(

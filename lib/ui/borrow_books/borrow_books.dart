@@ -78,13 +78,11 @@ class _BorrowBooksState extends State<BorrowBooks> {
                                       .bookname !=
                                   null
                               ? BorrowBookCard(
-                                  bookName: state.borrowBooks.data![index]
-                                      .bookInfo!.bookname
-                                      .toString(),
+                                  bookName:
+                                      '${state.borrowBooks.data![index].bookInfo!.bookname}',
                                   authorName: "",
-                                  bookCover: state.borrowBooks.data![index]
-                                      .bookInfo!.bookCover
-                                      .toString(),
+                                  bookCover:
+                                      '${state.borrowBooks.data![index].bookInfo!.bookCover}',
                                   left: _calculateLeftDays(state
                                           .borrowBooks.data![index].returnDate
                                           .toString())

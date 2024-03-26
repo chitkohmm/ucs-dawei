@@ -203,15 +203,10 @@ class _LibraryState extends State<Library> {
                                                   book: currentBook[index])));
                                     },
                                     child: BookItem(
-                                      name: currentBook[index]
-                                          .bookname
-                                          .toString(),
-                                      authorName: currentBook[index]
-                                          .authorName
-                                          .toString(),
-                                      photo: currentBook[index]
-                                          .bookCover
-                                          .toString(),
+                                      name: '${currentBook[index].bookname}',
+                                      authorName:
+                                          '${currentBook[index].authorName}',
+                                      photo: '${currentBook[index].bookCover}',
                                     ),
                                   );
                                 }),

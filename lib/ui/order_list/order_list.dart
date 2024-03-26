@@ -63,15 +63,12 @@ class _OrderListState extends State<OrderList> {
                           ? Padding(
                               padding: const EdgeInsets.only(bottom: 12.0),
                               child: BookItem(
-                                  name: state
-                                      .orderListResponse.data![index].bookname
-                                      .toString(),
-                                  authorName: state
-                                      .orderListResponse.data![index].authorName
-                                      .toString(),
-                                  photo: state
-                                      .orderListResponse.data![index].bookCover
-                                      .toString()),
+                                  name:
+                                      '${state.orderListResponse.data![index].bookname}',
+                                  authorName:
+                                      '${state.orderListResponse.data![index].authorName}',
+                                  photo:
+                                      '${state.orderListResponse.data![index].bookCover}'),
                             )
                           : const SizedBox();
                     })

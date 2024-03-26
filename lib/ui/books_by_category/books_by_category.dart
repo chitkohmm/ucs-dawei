@@ -154,13 +154,12 @@ class _BooksByCategoryState extends State<BooksByCategory> {
                                           state.booksByCategory.data![index])));
                         },
                         child: BookItem(
-                          name: state.booksByCategory.data![index].bookname
-                              .toString(),
-                          authorName: state
-                              .booksByCategory.data![index].authorName
-                              .toString(),
-                          photo: state.booksByCategory.data![index].bookCover
-                              .toString(),
+                          name:
+                              '${state.booksByCategory.data![index].bookname}',
+                          authorName:
+                              '${state.booksByCategory.data![index].authorName}',
+                          photo:
+                              '${state.booksByCategory.data![index].bookCover}',
                         ),
                       );
                     })
@@ -206,13 +205,12 @@ class _BooksByCategoryState extends State<BooksByCategory> {
                                           state.booksByCategory.data![index])));
                         },
                         child: BookItem(
-                          name: state.booksByCategory.data![index].bookname
-                              .toString(),
-                          authorName: state
-                              .booksByCategory.data![index].authorName
-                              .toString(),
-                          photo: state.booksByCategory.data![index].bookCover
-                              .toString(),
+                          name:
+                              '${state.booksByCategory.data![index].bookname}',
+                          authorName:
+                              '${state.booksByCategory.data![index].authorName}',
+                          photo:
+                              '${state.booksByCategory.data![index].bookCover}',
                         ),
                       );
                     })

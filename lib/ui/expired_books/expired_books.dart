@@ -65,18 +65,14 @@ class _ExpiredBooksState extends State<ExpiredBooks> {
                         padding: const EdgeInsets.only(bottom: 12.0),
                         child: state.downloadBooks.data!.isNotEmpty
                             ? HorizontalBookCard(
-                                name: state.downloadBooks.data![index].bookinfo!
-                                    .bookname
-                                    .toString(),
-                                authorName: state.downloadBooks.data![index]
-                                    .bookinfo!.authorName
-                                    .toString(),
-                                bookCover: state.downloadBooks.data![index]
-                                    .bookinfo!.bookCover
-                                    .toString(),
-                                expiredDay: state
-                                    .downloadBooks.data![index].expiredDay
-                                    .toString(),
+                                name:
+                                    '${state.downloadBooks.data![index].bookinfo!.bookname}',
+                                authorName:
+                                    '${state.downloadBooks.data![index].bookinfo!.authorName}',
+                                bookCover:
+                                    '${state.downloadBooks.data![index].bookinfo!.bookCover}',
+                                expiredDay:
+                                    '${state.downloadBooks.data![index].expiredDay}',
                               )
                             : const SizedBox(),
                       );

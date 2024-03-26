@@ -80,9 +80,8 @@ class _PendingListState extends State<PendingList> {
                                             borderRadius:
                                                 BorderRadius.circular(8)),
                                         child: CachedNetworkImage(
-                                          imageUrl: state.pendingList
-                                              .data![index].bookCover
-                                              .toString(),
+                                          imageUrl:
+                                              '${state.pendingList.data![index].bookCover}',
                                           errorWidget: (context, _, child) {
                                             return Container(
                                               color: Colors.grey.shade400,
@@ -101,9 +100,7 @@ class _PendingListState extends State<PendingList> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              state.pendingList.data![index]
-                                                  .bookname
-                                                  .toString(),
+                                              '${state.pendingList.data![index].bookname}',
                                               maxLines: 1,
                                               style: const TextStyle(
                                                   fontSize: 14,
@@ -111,9 +108,7 @@ class _PendingListState extends State<PendingList> {
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                             Text(
-                                              state.pendingList.data![index]
-                                                  .authorName
-                                                  .toString(),
+                                              '${state.pendingList.data![index].authorName}',
                                               maxLines: 1,
                                               style: const TextStyle(
                                                   color: Colors.grey),

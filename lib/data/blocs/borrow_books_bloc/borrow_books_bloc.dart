@@ -27,7 +27,7 @@ class BorrowBooksBloc extends Bloc<BorrowBooksEvent, BorrowBooksState> {
               userId: int.parse(StorageUtils.getString("user_id"))));
       emit(BorrowBooksLoadedState(borrowBooks: response));
     } on DioError catch (e) {
-      debugPrint(e.toString());
+      debugPrint('$e');
       emit(BorrowBooksErrorState());
     }
   }

@@ -30,7 +30,7 @@ class BooksByCategoryBloc
           BooksByCategoryRequestBody(categoryId: event.id.toInt()));
       emit(BooksByCategoryLoadedState(booksByCategory: response));
     } on DioError catch (e) {
-      debugPrint(e.toString());
+      debugPrint('$e');
       emit(BooksByCategoryErrorState());
     }
   }

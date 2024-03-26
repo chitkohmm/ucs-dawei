@@ -148,11 +148,10 @@ class _SearchState extends State<Search> {
                                                         book: books[index])));
                                       },
                                       child: BookItem(
-                                        name: books[index].bookname.toString(),
+                                        name: '${books[index].bookname}',
                                         authorName:
-                                            books[index].authorName.toString(),
-                                        photo:
-                                            books[index].bookCover.toString(),
+                                            '${books[index].authorName}',
+                                        photo: '${books[index].bookCover}',
                                       ),
                                     );
                                   }),

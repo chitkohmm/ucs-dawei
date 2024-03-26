@@ -59,7 +59,7 @@ class _DownloadBooksState extends State<DownloadBooks> {
               elevation: 0,
               backgroundColor: Colors.white,
               title: const Text(
-                "Download Books",
+                "Downloaded Books",
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
               ),
@@ -104,8 +104,8 @@ class _DownloadBooksState extends State<DownloadBooks> {
                                     kGoToNext(
                                       context,
                                       DownloadDetail(
-                                        url: snapshot.data![index].filePath
-                                            .toString(),
+                                        url:
+                                            '${snapshot.data![index].filePath}',
                                       ),
                                     );
                                   },
@@ -113,13 +113,11 @@ class _DownloadBooksState extends State<DownloadBooks> {
                                     padding:
                                         const EdgeInsets.only(bottom: 12.0),
                                     child: BookItem(
-                                      name: snapshot.data![index].bookName
-                                          .toString(),
-                                      authorName: snapshot.data![index].author
-                                          .toString(),
+                                      name: '${snapshot.data![index].bookName}',
+                                      authorName:
+                                          '${snapshot.data![index].author}',
                                       isLocal: true,
-                                      photo: snapshot.data![index].cover
-                                          .toString(),
+                                      photo: '${snapshot.data![index].cover}',
                                       onDelete: () {
                                         _deleteBook(
                                             snapshot.data![index].bookId ?? 0);
@@ -127,7 +125,7 @@ class _DownloadBooksState extends State<DownloadBooks> {
                                     ),
                                   ),
                                 )
-                              : const SizedBox();
+                              : const SizedBox.shrink();
                         },
                       )
                 : const SizedBox.shrink(),

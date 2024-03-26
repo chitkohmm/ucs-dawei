@@ -52,11 +52,11 @@ class _ProfileInfoCardState extends State<ProfileInfoCard> {
               padding: const EdgeInsets.only(top: 20.0, right: 16, left: 16),
               child: Column(
                 children: [
-                  _textRow("Name", userInfo.name.toString()),
+                  _textRow("Name", '${userInfo.name}'),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.008,
                   ),
-                  _textRow("Roll No", userInfo.rollNumber.toString()),
+                  _textRow("Roll No", '${userInfo.rollNumber}'),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.005,
                   ),
