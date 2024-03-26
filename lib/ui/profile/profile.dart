@@ -8,8 +8,6 @@ import 'package:libms_flutter/ui/order_list/order_list.dart';
 import 'package:libms_flutter/ui/profile/widgets/profile_info_card.dart';
 import 'package:libms_flutter/ui/splash/splash.dart';
 
-import '../pending_list/pending_list.dart';
-
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
 

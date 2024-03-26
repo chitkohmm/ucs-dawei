@@ -1,16 +1,13 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:libms_flutter/common/methods/common_methods.dart';
 import 'package:libms_flutter/data/network/api_service.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:libms_flutter/ui/book_detail/date_widget.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../data/blocs/book_bloc/book_bloc.dart';
@@ -53,28 +50,6 @@ class _BookDetailState extends State<BookDetail> {
     }
   }
 
-  Future<File> _downloadFile(String fileName) async {
-    final pdfUrl = '${widget.book.bookfile?[0].originalUrl}';
-
-    var response = await http.get(Uri.parse(pdfUrl));
-
-    var filePath = '${(await getTemporaryDirectory()).path}/$fileName';
-    File file = File(filePath);
-    await file.writeAsBytes(response.bodyBytes);
-    return file;
-  }
-
-  Future<File> _downloadPhoto(String url, String fileName) async {
-    var response = await http.get(Uri.parse(url));
-    var filePath = '${(await getTemporaryDirectory()).path}/$fileName.png';
-
-    debugPrint('Photo download $url');
-
-    File file = File(filePath);
-    await file.writeAsBytes(response.bodyBytes);
-    return file;
-  }
-
   @override
   void initState() {
     returnDate =
@@ -85,8 +60,6 @@ class _BookDetailState extends State<BookDetail> {
   bool isDownloading = false;
   @override
   Widget build(BuildContext context) {
-    // debugPrint('Book  ${widget.book.bookfile![0]} bookfile url : ${widget.book.bookfileUrl}');
-
     return PopScope(
       canPop: isDownloading ? false : true,
       onPopInvoked: (_) {
@@ -101,32 +74,22 @@ class _BookDetailState extends State<BookDetail> {
           elevation: 0,
           backgroundColor: Colors.white,
           leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back_ios_rounded,
-              color: Colors.grey.shade700,
-            ),
+            onTap: () => Navigator.pop(context),
+            child:
+                Icon(Icons.arrow_back_ios_rounded, color: Colors.grey.shade700),
           ),
-          title: Tooltip(
-            message: widget.book.bookname.toString().toUpperCase(),
-            child: Text(
-              widget.book.bookname.toString().toUpperCase(),
-              style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.w700),
-            ),
+          title: Text(
+            '${widget.book.bookname}'.toUpperCase(),
+            style: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w700),
           ),
         ),
         body: SafeArea(
           child: Stack(
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                    top: 10.0,
-                    left: 10,
-                    right: 10,
-                    bottom: MediaQuery.of(context).size.height / 6),
+                padding: EdgeInsets.fromLTRB(
+                    10.0, 10, 10, kDeviceHeight(context) / 6),
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Column(
@@ -136,17 +99,14 @@ class _BookDetailState extends State<BookDetail> {
                       widget.book.description == null
                           ? const SizedBox()
                           : _buildMiddleSection(context),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
+                      SizedBox(height: kDeviceHeight(context) * 0.02),
                     ],
                   ),
                 ),
               ),
               Align(
                   alignment: Alignment.bottomCenter,
-                  child: _buildBottomSection(
-                      context, widget.book.status.toString()))
+                  child: _buildBottomSection(context, '${widget.book.status}'))
             ],
           ),
         ),
@@ -169,20 +129,16 @@ class _BookDetailState extends State<BookDetail> {
             child: CachedNetworkImage(
               imageUrl: imgPath,
               errorWidget: (context, child, _) {
-                return Container(
-                  color: Colors.grey.shade400,
-                );
+                return Container(color: Colors.grey.shade400);
               },
             ),
           ),
         ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.01,
-        ),
+        SizedBox(height: kDeviceHeight(context) * 0.01),
         Tooltip(
-          message: widget.book.authorName.toString(),
+          message: '${widget.book.authorName}',
           child: Text(
-            "Book by ${widget.book.authorName.toString()}",
+            "Book by ${widget.book.authorName}",
             maxLines: 2,
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
@@ -214,13 +170,11 @@ class _BookDetailState extends State<BookDetail> {
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
           ),
         ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.01,
-        ),
+        SizedBox(height: kDeviceHeight(context) * 0.01),
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            widget.book.description.toString(),
+            '${widget.book.description}',
             style: const TextStyle(height: 1.5),
           ),
         )
@@ -253,48 +207,17 @@ class _BookDetailState extends State<BookDetail> {
                           Expanded(
                               child: InkWell(
                             onTap: () => _selectDate(context),
-                            child: Row(
-                              children: [
-                                const Icon(CupertinoIcons.calendar_circle_fill),
-                                const SizedBox(
-                                  width: 3,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Borrow Date"),
-                                    Text(DateFormat("yyyy-MM-dd")
-                                        .format(borrowDate))
-                                  ],
-                                )
-                              ],
-                            ),
+                            child: DateWidget(
+                                title: "Borrow Date", dateTime: borrowDate),
                           )),
                           Expanded(
-                              child: Row(
-                            children: [
-                              const Icon(CupertinoIcons.calendar_circle_fill),
-                              const SizedBox(
-                                width: 3,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Return Date",
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                  Text(DateFormat("yyyy-MM-dd")
-                                      .format(returnDate))
-                                ],
-                              )
-                            ],
-                          )),
+                              child: DateWidget(
+                                  title: "Return Date",
+                                  dateTime: returnDate,
+                                  titleColor: Colors.red)),
                         ],
                       ),
-                      SizedBox(
-                        height: kDeviceHeight(context) * 0.03,
-                      ),
+                      SizedBox(height: kDeviceHeight(context) * 0.03),
                     ],
                   )
                 : const SizedBox(),
@@ -303,45 +226,46 @@ class _BookDetailState extends State<BookDetail> {
             BlocConsumer<BookBloc, BookState>(
               builder: (context, state) {
                 if (state is BookLoadingState) {
-                  return InkWell(
-                    onTap: null,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xFF5AE4A8)),
-                      child: Center(
-                        child: SpinKitThreeBounce(
-                          color: Colors.grey.shade900,
-                          size: 20,
-                        ),
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(0xFF5AE4A8)),
+                    child: Center(
+                      child: SpinKitThreeBounce(
+                        color: Colors.grey.shade900,
+                        size: 20,
                       ),
                     ),
                   );
                 }
                 return status == "0"
                     ? InkWell(
-                        onTap: () async {
-                          if (widget.book.bookfile != null) {
-                            BlocProvider.of<BookBloc>(context).add(
-                              DownloadBookEvent(
-                                addBookToDownloadList: AddBookToDownloadList(
-                                  userId: int.parse(
-                                    StorageUtils.getString("user_id"),
-                                  ),
-                                  status: "3",
-                                  books: BookObject(
-                                    bookId: widget.book.id.toString(),
-                                  ),
-                                ),
-                              ),
-                            );
-                          } else {
-                            Fluttertoast.showToast(
-                                msg: "Sorry there is no related book file");
-                          }
-                        },
+                        onTap: isDownloading
+                            ? null
+                            : () async {
+                                if (widget.book.bookfile != null) {
+                                  BlocProvider.of<BookBloc>(context).add(
+                                    DownloadBookEvent(
+                                      addBookToDownloadList:
+                                          AddBookToDownloadList(
+                                        userId: int.parse(
+                                          StorageUtils.getString("user_id"),
+                                        ),
+                                        status: "3",
+                                        books: BookObject(
+                                          bookId: widget.book.id.toString(),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          "Sorry there is no related book file");
+                                }
+                              },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 10),
@@ -419,15 +343,14 @@ class _BookDetailState extends State<BookDetail> {
                     setState(() {
                       isDownloading = true;
                     });
-                    // final response = await manager.downloadFileSimple(state.orderResponse., null);
-                    // final directory = await getApplicationDocumentsDirectory();
+                    Fluttertoast.showToast(msg: "Downloading...");
 
-                    var file =
-                        await _downloadFile('${widget.book.bookname}.pdf');
+                    var file = await CommonMethods.downloadPDF(
+                        fileName: '${widget.book.bookname}.pdf',
+                        fileUrl: '${widget.book.bookfile?[0].originalUrl}');
 
-                    var photo = await _downloadPhoto(
-                        widget.book.bookCover.toString(),
-                        '${widget.book.bookname}');
+                    var photo = await CommonMethods.downloadPhoto(
+                        '${widget.book.bookCover}', '${widget.book.bookname}');
 
                     await SqliteClient.saveBookFile(
                         bookFile: BookFile(
@@ -456,15 +379,14 @@ class _BookDetailState extends State<BookDetail> {
                       setState(() {
                         isDownloading = true;
                       });
-                      // final response = await manager.downloadFileSimple(state.orderResponse., null);
-                      // final directory =
-                      //     await getApplicationDocumentsDirectory();
+                      Fluttertoast.showToast(msg: "Downloading...");
 
-                      var file =
-                          await _downloadFile('${widget.book.bookname}.pdf');
+                      var file = await CommonMethods.downloadPDF(
+                          fileName: '${widget.book.bookname}.pdf',
+                          fileUrl: '${widget.book.bookfile?[0].originalUrl}');
 
-                      var photo = await _downloadPhoto(
-                          widget.book.bookCover.toString(),
+                      var photo = await CommonMethods.downloadPhoto(
+                          '${widget.book.bookCover}',
                           '${widget.book.bookname}');
 
                       await SqliteClient.saveBookFile(

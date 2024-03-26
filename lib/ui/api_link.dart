@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
@@ -138,27 +137,6 @@ class _APILinkState extends State<APILink> {
       ),
     );
   }
-
-  Widget _buildIOSDialog() => CupertinoAlertDialog(
-        title: const Text("Reset URL"),
-        content: const Text("Set default value back."),
-        actions: [
-          TextButton(
-              onPressed: () {
-                // Phoenix.rebirth(context); // <-- Temp Disabled
-                Navigator.pop(context);
-              },
-              child: const Text("Cancel")),
-          TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                "Reset",
-                style: TextStyle(color: Colors.indigo),
-              )),
-        ],
-      );
 }
 
 class UrlChangeBtn extends StatelessWidget {
