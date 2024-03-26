@@ -13,7 +13,6 @@ import '../../data/models/login/login_request.dart';
 import '../../domain/constants.dart';
 import '../../domain/storage_utils.dart';
 import '../../utils/extensions.dart';
-import '../api_link.dart';
 import '../bottom_nav_bar/bottom_nav_bar.dart';
 
 class Login extends StatelessWidget {

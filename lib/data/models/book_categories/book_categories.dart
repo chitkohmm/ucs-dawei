@@ -9,13 +9,13 @@ class BookCategories {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(Data.fromJson(v));
+        data?.add(BookCategoryData.fromJson(v));
       });
     }
   }
-  List<Data>? data;
+  List<BookCategoryData>? data;
   BookCategories copyWith({
-    List<Data>? data,
+    List<BookCategoryData>? data,
   }) =>
       BookCategories(
         data: data ?? this.data,
@@ -33,27 +33,27 @@ class BookCategories {
 /// category : "PHP"
 /// image : {"original_url":"https://lib-ms.hmmdemo.net/storage/9/63e49e63e30f0_php.png"}
 
-class Data {
-  Data({
+class BookCategoryData {
+  BookCategoryData({
     this.id,
     this.category,
     this.image,
   });
 
-  Data.fromJson(dynamic json) {
+  BookCategoryData.fromJson(dynamic json) {
     id = json['id'];
     category = json['category'];
-    image = json['image'] != null ? Image.fromJson(json['image']) : null;
+    image = json['image'] != null ? CategoryCover.fromJson(json['image']) : null;
   }
   num? id;
   String? category;
-  Image? image;
-  Data copyWith({
+  CategoryCover? image;
+  BookCategoryData copyWith({
     num? id,
     String? category,
-    Image? image,
+    CategoryCover? image,
   }) =>
-      Data(
+      BookCategoryData(
         id: id ?? this.id,
         category: category ?? this.category,
         image: image ?? this.image,
@@ -71,21 +71,21 @@ class Data {
 
 /// original_url : "https://lib-ms.hmmdemo.net/storage/9/63e49e63e30f0_php.png"
 
-class Image {
-  Image({
+class CategoryCover {
+  CategoryCover({
     this.originalUrl,
   });
 
-  Image.fromJson(dynamic json) {
+  CategoryCover.fromJson(dynamic json) {
     originalUrl = json['url'];
   }
 
   String? originalUrl;
 
-  Image copyWith({
+  CategoryCover copyWith({
     String? originalUrl,
   }) =>
-      Image(
+      CategoryCover(
         originalUrl: originalUrl ?? this.originalUrl,
       );
 
