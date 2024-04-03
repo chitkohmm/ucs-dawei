@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:libms_flutter/data/network/sqlite_client.dart';
 import 'package:libms_flutter/domain/constants.dart';
 import 'package:libms_flutter/domain/storage_utils.dart';
 import 'package:libms_flutter/ui/borrow_books/borrow_books.dart';
-import 'package:libms_flutter/ui/download_books/download_books.dart';
 import 'package:libms_flutter/ui/expired_books/expired_books.dart';
 import 'package:libms_flutter/ui/order_list/order_list.dart';
 import 'package:libms_flutter/ui/profile/widgets/profile_info_card.dart';
+import 'package:libms_flutter/ui/profile/widgets/users_downloaded_book_list.dart';
 import 'package:libms_flutter/ui/splash/splash.dart';
 
 class Profile extends StatelessWidget {
@@ -19,7 +20,7 @@ class Profile extends StatelessWidget {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () {
+              onPressed: () async {
                 String url = StorageUtils.getString("url");
                 StorageUtils.clear();
                 StorageUtils.setString("url", url);
@@ -27,6 +28,7 @@ class Profile extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => const Splash()),
                     (route) => false);
+                await SqliteClient.removeAllBooks();
               },
               icon: const Icon(
                 Icons.logout,
@@ -100,14 +102,12 @@ class Profile extends StatelessWidget {
                             height: MediaQuery.of(context).size.height * 0.018,
                           ),
                           _buttonCard("Download Books", () {
-                            /// download page
-                            kGoToNext(context, const DownloadBooks());
+                            kGoToNext(context, const UserDownloadedBooksList());
                           }),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.018,
                           ),
                           _buttonCard("Order Books", () {
-                            /// download page
                             kGoToNext(context, const OrderList());
                           }),
                           SizedBox(

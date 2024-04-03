@@ -80,8 +80,11 @@ class _BookDetailState extends State<BookDetail> {
           ),
           title: Text(
             '${widget.book.bookname}'.toUpperCase(),
-            style: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w700),
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                fontSize: kDeviceWidth(context) * 0.04),
+            maxLines: 2,
           ),
         ),
         body: SafeArea(

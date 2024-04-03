@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -51,7 +52,7 @@ class _BooksByCategoryState extends State<BooksByCategory> {
         actions: [
           PopupMenuButton(
             icon: Icon(
-              Icons.filter_list,
+              CupertinoIcons.slider_horizontal_3,
               color: Colors.grey.shade700,
             ),
             position: PopupMenuPosition.under,
