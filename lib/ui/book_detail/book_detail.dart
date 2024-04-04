@@ -4,24 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:libms_flutter/common/methods/common_methods.dart';
 import 'package:libms_flutter/data/network/api_service.dart';
-import 'package:libms_flutter/ui/book_detail/date_widget.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../data/blocs/book_bloc/book_bloc.dart';
-import '../../data/models/book/add_book_to_download_list.dart';
 import '../../data/models/book/books.dart';
 import '../../data/models/book/current_book_count.dart';
-import '../../data/models/book/request_book.dart';
 import '../../data/models/book_file.dart';
-import '../../data/models/order/order_request_body.dart';
 import '../../data/network/sqlite_client.dart';
 import '../../domain/constants.dart';
 import '../../domain/storage_utils.dart';
 import '../bottom_nav_bar/bottom_nav_bar.dart';
 import 'success_page.dart';
+import 'widgets/widgets.dart';
 
 class BookDetail extends StatefulWidget {
   const BookDetail({Key? key, required this.book}) : super(key: key);
@@ -100,7 +96,8 @@ class _BookDetailState extends State<BookDetail> {
                       _buildUpperSection('${widget.book.bookCover}', context),
                       widget.book.description == null
                           ? const SizedBox()
-                          : _buildMiddleSection(context),
+                          : _buildMiddleSection(
+                              context, widget.book.status ?? ''),
                       SizedBox(height: kDeviceHeight(context) * 0.02),
                     ],
                   ),
@@ -137,14 +134,11 @@ class _BookDetailState extends State<BookDetail> {
           ),
         ),
         SizedBox(height: kDeviceHeight(context) * 0.01),
-        Tooltip(
-          message: '${widget.book.authorName}',
-          child: Text(
-            "Book by ${widget.book.authorName}",
-            maxLines: 2,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-          ),
+        Text(
+          "Book by ${widget.book.authorName}",
+          maxLines: 2,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
         ),
         _buildRowInfo("Duration", "${widget.book.readingDuration}\tdays"),
         widget.book.status == "0"
@@ -155,22 +149,26 @@ class _BookDetailState extends State<BookDetail> {
                         0
                 ? const Text("Unavailable")
                 : _buildRowInfo("Available Stock", "${widget.book.qty}"),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.02),
       ],
     );
   }
 
-  Widget _buildMiddleSection(BuildContext context) {
+  Widget _buildMiddleSection(BuildContext context, String status) {
     return Column(
       children: [
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Description",
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Description",
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+            ),
+            status == '2'
+                ? CustomTextButton(
+                    book: widget.book, isDownloading: isDownloading)
+                : const SizedBox.shrink(),
+          ],
         ),
         SizedBox(height: kDeviceHeight(context) * 0.01),
         Align(
@@ -198,7 +196,7 @@ class _BookDetailState extends State<BookDetail> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            status == "1"
+            status == "1" || status == '2'
 
                 ///[0 - soft copy] [1 - hard copy]
                 ? Column(
@@ -243,99 +241,108 @@ class _BookDetailState extends State<BookDetail> {
                   );
                 }
                 return status == "0"
-                    ? InkWell(
-                        onTap: isDownloading
-                            ? null
-                            : () async {
-                                if (widget.book.bookfile != null) {
-                                  BlocProvider.of<BookBloc>(context).add(
-                                    DownloadBookEvent(
-                                      addBookToDownloadList:
-                                          AddBookToDownloadList(
-                                        userId: int.parse(
-                                          StorageUtils.getString("user_id"),
-                                        ),
-                                        status: "3",
-                                        books: BookObject(
-                                          bookId: '${widget.book.id}',
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  Fluttertoast.showToast(
-                                      msg:
-                                          "Sorry there is no related book file");
-                                }
-                              },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color(0xFF5AE4A8)),
-                          child: isDownloading == true
-                              ? Center(
-                                  child: SpinKitThreeBounce(
-                                    color: Colors.grey.shade900,
-                                    size: 20,
-                                  ),
-                                )
-                              : const Center(
-                                  child: Text("Download"),
-                                ),
-                        ),
+                    ? DownloadButton(
+                        book: widget.book,
+                        isDownloading: isDownloading,
                       )
-                    : InkWell(
-                        onTap: () {
-                          if (widget.book.qty! <= 0 ||
-                              widget.book.qty!.toInt() -
-                                      widget.book.checkLimitQty!.toInt() ==
-                                  0) {
-                          } else {
-                            BlocProvider.of<BookBloc>(context).add(
-                              BorrowBookEvent(
-                                orderRequestBody: OrderRequestBody(
-                                  userId: int.parse(
-                                    StorageUtils.getString("user_id"),
-                                  ),
-                                  books: OrderBook(
-                                      bookId: widget.book.id!.toInt(),
-                                      status: "0",
-                                      issueDate:
-                                          DateFormat("yyyy-MM-dd").format(
-                                        borrowDate,
-                                      ),
-                                      returnDate: DateFormat("yyyy-MM-dd")
-                                          .format(returnDate)),
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: widget.book.qty! <= 0 ||
-                                      widget.book.qty!.toInt() -
-                                              widget.book.checkLimitQty!
-                                                  .toInt() ==
-                                          0
-                                  ? Colors.grey
-                                  : const Color(0xFF5AE4A8)),
-                          child: Center(
-                            child: Text(widget.book.qty! <= 0 ||
-                                    widget.book.qty!.toInt() -
-                                            widget.book.checkLimitQty!
-                                                .toInt() ==
-                                        0
-                                ? "Unavailable"
-                                : "Order Now"),
-                          ),
-                        ),
-                      );
+                    : OrderButton(
+                        book: widget.book,
+                        borrowDate: borrowDate,
+                        returnDate: returnDate);
+                // return status == "0"
+                //     ? InkWell(
+                //         onTap: isDownloading
+                //             ? null
+                //             : () async {
+                //                 if (widget.book.bookfile != null) {
+                //                   BlocProvider.of<BookBloc>(context).add(
+                //                     DownloadBookEvent(
+                //                       addBookToDownloadList:
+                //                           AddBookToDownloadList(
+                //                         userId: int.parse(
+                //                           StorageUtils.getString("user_id"),
+                //                         ),
+                //                         status: "3",
+                //                         books: BookObject(
+                //                           bookId: '${widget.book.id}',
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   );
+                //                 } else {
+                //                   Fluttertoast.showToast(
+                //                       msg:
+                //                           "Sorry there is no related book file");
+                //                 }
+                //               },
+                //         child: Container(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal: 12, vertical: 10),
+                //           decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(10),
+                //               color: const Color(0xFF5AE4A8)),
+                //           child: isDownloading == true
+                //               ? Center(
+                //                   child: SpinKitThreeBounce(
+                //                     color: Colors.grey.shade900,
+                //                     size: 20,
+                //                   ),
+                //                 )
+                //               : const Center(
+                //                   child: Text("Download"),
+                //                 ),
+                //         ),
+                //       )
+                //     : InkWell(
+                //         onTap: () {
+                //           if (widget.book.qty! <= 0 ||
+                //               widget.book.qty!.toInt() -
+                //                       widget.book.checkLimitQty!.toInt() ==
+                //                   0) {
+                //           } else {
+                //             BlocProvider.of<BookBloc>(context).add(
+                //               BorrowBookEvent(
+                //                 orderRequestBody: OrderRequestBody(
+                //                   userId: int.parse(
+                //                     StorageUtils.getString("user_id"),
+                //                   ),
+                //                   books: OrderBook(
+                //                       bookId: widget.book.id!.toInt(),
+                //                       status: "0",
+                //                       issueDate:
+                //                           DateFormat("yyyy-MM-dd").format(
+                //                         borrowDate,
+                //                       ),
+                //                       returnDate: DateFormat("yyyy-MM-dd")
+                //                           .format(returnDate)),
+                //                 ),
+                //               ),
+                //             );
+                //           }
+                //         },
+                //         child: Container(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal: 12, vertical: 10),
+                //           decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(10),
+                //               color: widget.book.qty! <= 0 ||
+                //                       widget.book.qty!.toInt() -
+                //                               widget.book.checkLimitQty!
+                //                                   .toInt() ==
+                //                           0
+                //                   ? Colors.grey
+                //                   : const Color(0xFF5AE4A8)),
+                //           child: Center(
+                //             child: Text(widget.book.qty! <= 0 ||
+                //                     widget.book.qty!.toInt() -
+                //                             widget.book.checkLimitQty!
+                //                                 .toInt() ==
+                //                         0
+                //                 ? "Unavailable"
+                //                 : "Order Now"),
+                //           ),
+                //         ),
+                //       );
               },
               listener: (context, state) async {
                 if (state is BookLoadedState) {

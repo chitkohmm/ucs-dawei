@@ -26,8 +26,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // final baseUrl = StorageUtils.getString("url");
-
     return Scaffold(
       backgroundColor: const Color(0xffF5F5F5),
       resizeToAvoidBottomInset: false,

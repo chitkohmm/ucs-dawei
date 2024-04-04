@@ -85,7 +85,7 @@ class _SearchState extends State<Search> {
                                 color: Colors.grey.shade700,
                               ),
                             ),
-                            hintText: "by authors, names...",
+                            hintText: "by authors, names, category...",
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(12),
